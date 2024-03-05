@@ -1,12 +1,11 @@
 package com.freitag.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
+@Table(name = "artist")
 public class Artist {
 
     private @Id @GeneratedValue Long id;
@@ -14,10 +13,12 @@ public class Artist {
     private String management;
     private String email;
 
+    @OneToOne(mappedBy = "artist")
+    private ArtistRequest artistRequest;
+
     public Artist() {}
 
-    public Artist(Long id, String name, String management, String email) {
-        this.id = id;
+    public Artist(String name, String management, String email) {
         this.name = name;
         this.management = management;
         this.email = email;

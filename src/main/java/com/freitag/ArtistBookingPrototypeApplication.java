@@ -7,5 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ArtistBookingPrototypeApplication {
     public static void main(String[] args) {
         SpringApplication.run(ArtistBookingPrototypeApplication.class, args);
+
     }
 }
