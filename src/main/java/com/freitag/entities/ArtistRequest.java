@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "artistRequest")
 public class ArtistRequest {
 
     private @Id
@@ -14,13 +15,14 @@ public class ArtistRequest {
     @JoinColumn(name = "artist_id")
     private Artist artist;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "offer_id")
+    @OneToOne(mappedBy = "offer_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Offer offer;
 
     private Date eventStart;
     private Date eventEnd;
     private String details;
+
+    public ArtistRequest() {}
 
     public ArtistRequest(Artist artist, Date eventStart, Date eventEnd, String details) {
         this.artist = artist;
@@ -67,5 +69,13 @@ public class ArtistRequest {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public Offer getOffer() {
+        return offer;
+    }
+
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 }

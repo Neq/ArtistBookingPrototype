@@ -8,19 +8,14 @@ import java.math.BigDecimal;
 @Table(name = "offer")
 public class Offer {
     private @Id @GeneratedValue Long id;
-    @OneToOne(mappedBy = "offer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artistRequest_id")
     private ArtistRequest artistRequest;
 
     private String details;
     private BigDecimal offerPrice;
 
     private OfferStatus offerStatus;
-
-    public enum OfferStatus {
-        PENDING,
-        COMPLETED,
-        CANCELLED
-    }
 
     public Offer() {}
 
@@ -69,5 +64,11 @@ public class Offer {
 
     public void setOfferStatus(OfferStatus offerStatus) {
         this.offerStatus = offerStatus;
+    }
+
+    public enum OfferStatus {
+        PENDING,
+        COMPLETED,
+        CANCELLED
     }
 }
