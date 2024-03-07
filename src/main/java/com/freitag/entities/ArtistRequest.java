@@ -10,9 +10,14 @@ public class ArtistRequest {
     private @Id
     @GeneratedValue Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "artist_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artist_id")
     private Artist artist;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "offer_id")
+    private Offer offer;
+
     private Date eventStart;
     private Date eventEnd;
     private String details;

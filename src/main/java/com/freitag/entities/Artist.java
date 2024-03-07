@@ -13,7 +13,7 @@ public class Artist {
     private String management;
     private String email;
 
-    @OneToOne(mappedBy = "artist")
+    @OneToOne(mappedBy = "artist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ArtistRequest artistRequest;
 
     public Artist() {}
