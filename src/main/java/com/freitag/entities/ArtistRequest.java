@@ -15,7 +15,7 @@ public class ArtistRequest {
     @JoinColumn(name = "artist_id")
     private Artist artist;
 
-    @OneToOne(mappedBy = "offer_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "artistRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Offer offer;
 
     private Date eventStart;

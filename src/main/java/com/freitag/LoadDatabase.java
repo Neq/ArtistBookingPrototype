@@ -32,9 +32,12 @@ public class LoadDatabase {
             log.info("\\tArtist 2: " + artistRepository.save(superDj));
             ArtistRequest djHansWernerRequest = new ArtistRequest(artistRepository.findById(djHansWerner.getId()).get(), new Date(), new Date(), "Test details blabbla");
             log.info("\\tArtistRequest 1: " + artistRequestRepository.save(djHansWernerRequest));
+            log.info("DJHansWernerRequest: "+artistRequestRepository.findById(djHansWernerRequest.getId()).get());
 
-            Offer djHansWernerOffer = new Offer(artistRequestRepository.findById(djHansWernerRequest.getId()).get(),"test",new BigDecimal(99.99), Offer.OfferStatus.PENDING);
-            offerRepository.save(djHansWernerOffer);
+            Offer djHansWernerOffer = new Offer(artistRequestRepository.findById(djHansWernerRequest.getId()).get(),"test", new BigDecimal(99.99), Offer.OfferStatus.PENDING);
+            log.info("DJHansWernerOffer: "+offerRepository.save(djHansWernerOffer));
+
+
         };
 
     }

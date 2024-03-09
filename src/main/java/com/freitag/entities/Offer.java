@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Table(name = "offer")
 public class Offer {
     private @Id @GeneratedValue Long id;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artistRequest_id")
     private ArtistRequest artistRequest;
