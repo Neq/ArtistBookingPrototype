@@ -14,6 +14,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@CrossOrigin
 public class ArtistController {
 
     private final ArtistRepository artistRepository;
@@ -46,12 +47,21 @@ public class ArtistController {
     }
 
     @PostMapping("/artists")
-    ResponseEntity<EntityModel<Artist>> newOrder(@RequestBody Artist artist) {
+    ResponseEntity<EntityModel<Artist>> newArtist(@RequestBody Artist artist) {
 
-        Artist newOrder = artistRepository.save(artist);
+        Artist newArtist = artistRepository.save(artist);
 
         return ResponseEntity //
-                .created(linkTo(methodOn(ArtistController.class).one(newOrder.getId())).toUri()) //
-                .body(assembler.toModel(newOrder));
+                .created(linkTo(methodOn(ArtistController.class).one(newArtist.getId())).toUri()) //
+                .body(assembler.toModel(newArtist));
+    }
+
+    @DeleteMapping("/artists/{id}")
+    ResponseEntity<EntityModel<Artist>> deleteArtist(@PathVariable Long id) {
+
+        Artist artist = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("artist not found"));
+        artistRepository.delete(artist);
+
+        return ResponseEntity.created(linkTo(methodOn(ArtistController.class).one(artist.getId())).toUri()).body(assembler.toModel(artist));
     }
 }
