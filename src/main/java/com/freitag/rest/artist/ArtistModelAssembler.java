@@ -1,4 +1,4 @@
-package com.freitag.rest;
+package com.freitag.rest.artist;
 
 import com.freitag.entities.Artist;
 import org.springframework.hateoas.server.RepresentationModelAssembler;

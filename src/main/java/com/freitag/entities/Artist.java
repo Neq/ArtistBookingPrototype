@@ -56,6 +56,10 @@ public class Artist {
         this.email = email;
     }
 
+    //public ArtistRequest getArtistRequest() { return artistRequest; }
+
+    //public void setArtistRequest(ArtistRequest artistRequest) { this.artistRequest = artistRequest; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,4 +1,4 @@
-package com.freitag.rest;
+package com.freitag.rest.artist;
 
 import com.freitag.entities.Artist;
 import com.freitag.repositories.ArtistRepository;
@@ -21,7 +21,6 @@ public class ArtistController {
     private final ArtistModelAssembler assembler;
 
     ArtistController(ArtistRepository artistRepository, ArtistModelAssembler assembler) {
-
         this.artistRepository = artistRepository;
         this.assembler = assembler;
     }
@@ -29,13 +28,18 @@ public class ArtistController {
     @GetMapping("/artists")
     CollectionModel<EntityModel<Artist>> all() {
 
-        List<EntityModel<Artist>> orders = artistRepository.findAll().stream() //
+        List<EntityModel<Artist>> artists = artistRepository.findAll().stream() //
                 .map(assembler::toModel) //
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(orders, //
+        return CollectionModel.of(artists, //
                 linkTo(methodOn(ArtistController.class).all()).withSelfRel());
     }
+
+    /*@GetMapping("/artists")
+    public List<Artist> getAllArtists() {
+        return artistRepository.findAll();
+    }*/
 
     @GetMapping("/artists/{id}")
     EntityModel<Artist> one(@PathVariable Long id) {
