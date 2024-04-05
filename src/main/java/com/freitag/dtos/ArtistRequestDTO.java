@@ -1,8 +1,11 @@
 package com.freitag.dtos;
 
+import com.freitag.entities.ArtistRequest;
+
 import java.util.Date;
 
 public class ArtistRequestDTO {
+    private Long id;
     private Long artistId;
     private Date eventStart;
     private Date eventEnd;
@@ -14,11 +17,12 @@ public class ArtistRequestDTO {
 
     public ArtistRequestDTO() {}
 
-    public ArtistRequestDTO(Long artistId, Date eventStart, Date eventEnd, String details) {
-        this.artistId = artistId;
-        this.eventStart = eventStart;
-        this.eventEnd = eventEnd;
-        this.details = details;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setArtistId(Long artistId) {
@@ -47,5 +51,13 @@ public class ArtistRequestDTO {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public void toDTOFromObject(ArtistRequest artistRequest) {
+        setId(artistRequest.getId());
+        setEventEnd(artistRequest.getEventEnd());
+        setEventStart(artistRequest.getEventStart());
+        setDetails(artistRequest.getDetails());
+        setArtistId(artistRequest.getArtist().getId());
     }
 }

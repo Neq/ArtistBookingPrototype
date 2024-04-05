@@ -1,12 +1,16 @@
 package com.freitag.rest.artist;
 
+import com.freitag.dtos.ArtistDTO;
+import com.freitag.dtos.ArtistRequestDTO;
 import com.freitag.entities.Artist;
+import com.freitag.entities.ArtistRequest;
 import com.freitag.repositories.ArtistRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +39,14 @@ public class ArtistController {
         return CollectionModel.of(artists, //
                 linkTo(methodOn(ArtistController.class).all()).withSelfRel());
     }*/
-    public ResponseEntity<List<Artist>> all() {
-        return ResponseEntity.ok(artistRepository.findAll().stream().toList());
+    public ResponseEntity<List<ArtistDTO>> all() {
+        List<ArtistDTO> artistDtos = new ArrayList<>();
+        for(Artist artist : artistRepository.findAll().stream().toList()) {
+            ArtistDTO artistDto = new ArtistDTO();
+            artistDto.toDTOFromObject(artist);
+            artistDtos.add(artistDto);
+        }
+        return ResponseEntity.ok(artistDtos);
     }
 
     /*@GetMapping("/artists")

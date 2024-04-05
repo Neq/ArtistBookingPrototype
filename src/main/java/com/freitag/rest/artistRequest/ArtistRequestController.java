@@ -47,11 +47,7 @@ public class ArtistRequestController {
         List<ArtistRequestDTO> artistRequestDtos = new ArrayList<>();
         for(ArtistRequest artistRequest : artistRequestRepository.findAll().stream().toList()) {
             ArtistRequestDTO artistRequestDto = new ArtistRequestDTO();
-            artistRequestDto.setEventEnd(artistRequest.getEventEnd());
-            artistRequestDto.setEventStart(artistRequest.getEventStart());
-            artistRequestDto.setDetails(artistRequest.getDetails());
-            artistRequestDto.setArtistId(artistRequest.getArtist().getId());
-
+            artistRequestDto.toDTOFromObject(artistRequest);
             artistRequestDtos.add(artistRequestDto);
         }
         return ResponseEntity.ok(artistRequestDtos);
