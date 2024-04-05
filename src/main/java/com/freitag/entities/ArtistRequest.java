@@ -11,7 +11,7 @@ public class ArtistRequest {
     private @Id
     @GeneratedValue Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "artist_id")
     private Artist artist;
 
@@ -79,11 +79,19 @@ public class ArtistRequest {
         this.offer = offer;
     }*/
 
+    public Artist getArtist() {
+        return this.artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
     @Override
     public String toString() {
         return "ArtistRequest{" +
                 "id=" + id +
-                //", artist=" + artist +
+                ", artist=" + artist +
                 //", offer=" + offer +
                 ", eventStart=" + eventStart +
                 ", eventEnd=" + eventEnd +

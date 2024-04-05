@@ -45,30 +45,46 @@ public class ArtistController {
     }*/
 
     @GetMapping("/artists/{id}")
-    EntityModel<Artist> one(@PathVariable Long id) {
+    /*EntityModel<Artist> one(@PathVariable Long id) {
 
         Artist artist = artistRepository.findById(id) //
                 .orElseThrow(() -> new NullPointerException("one liefert nix zurück"+id));
 
         return assembler.toModel(artist);
+    }*/
+    ResponseEntity<Artist> one(@PathVariable Long id) {
+        Artist artist = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("one liefert nix zurück"+id));
+        return ResponseEntity.ok(artist);
     }
 
     @PostMapping("/artists")
-    ResponseEntity<EntityModel<Artist>> newArtist(@RequestBody Artist artist) {
+    /*ResponseEntity<EntityModel<Artist>> newArtist(@RequestBody Artist artist) {
 
         Artist newArtist = artistRepository.save(artist);
 
         return ResponseEntity //
                 .created(linkTo(methodOn(ArtistController.class).one(newArtist.getId())).toUri()) //
                 .body(assembler.toModel(newArtist));
+    }*/
+    ResponseEntity<Artist> newArtist(@RequestBody Artist artist) {
+        Artist newArtist = artistRepository.save(artist);
+
+        return ResponseEntity.ok(newArtist);
     }
 
     @DeleteMapping("/artists/{id}")
-    ResponseEntity<EntityModel<Artist>> deleteArtist(@PathVariable Long id) {
+    /*ResponseEntity<EntityModel<Artist>> deleteArtist(@PathVariable Long id) {
 
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("artist not found"));
         artistRepository.delete(artist);
 
         return ResponseEntity.created(linkTo(methodOn(ArtistController.class).one(artist.getId())).toUri()).body(assembler.toModel(artist));
+    }*/
+
+    ResponseEntity<Artist> deleteArtist(@PathVariable Long id) {
+        Artist artist = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("artist not found"));
+        artistRepository.delete(artist);
+
+        return ResponseEntity.ok(artist);
     }
 }

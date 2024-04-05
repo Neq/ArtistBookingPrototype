@@ -3,6 +3,7 @@ package com.freitag.entities;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "artist")
@@ -23,8 +24,8 @@ public class Artist {
 
     private String lastname;
 
-    @OneToOne(mappedBy = "artist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ArtistRequest artistRequest;
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ArtistRequest> artistRequests;
 
     public Artist() {}
 
@@ -111,8 +112,12 @@ public class Artist {
         this.lastname = lastname;
     }
 
-    public Long getArtistRequestId() {
-        return artistRequest != null ? artistRequest.getId() : Long.getLong("0");
+    public Set<ArtistRequest> getArtistRequests() {
+        return this.artistRequests;
+    }
+
+    public void setArtistRequests(Set<ArtistRequest> artistRequests) {
+        this.artistRequests = artistRequests;
     }
 
     /*public ArtistRequest getArtistRequest() {
@@ -128,12 +133,12 @@ public class Artist {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Artist artist = (Artist) o;
-        return Objects.equals(id, artist.id) && Objects.equals(name, artist.name) && Objects.equals(management, artist.management) && Objects.equals(email, artist.email) && Objects.equals(country, artist.country) && Objects.equals(address, artist.address) && Objects.equals(zipCode, artist.zipCode) && Objects.equals(firstname, artist.firstname) && Objects.equals(lastname, artist.lastname) && Objects.equals(artistRequest, artist.artistRequest);
+        return Objects.equals(id, artist.id) && Objects.equals(name, artist.name) && Objects.equals(management, artist.management) && Objects.equals(email, artist.email) && Objects.equals(country, artist.country) && Objects.equals(address, artist.address) && Objects.equals(zipCode, artist.zipCode) && Objects.equals(firstname, artist.firstname) && Objects.equals(lastname, artist.lastname) && Objects.equals(artistRequests, artist.artistRequests);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, management, email, country, address, zipCode, firstname, lastname, artistRequest);
+        return Objects.hash(id, name, management, email, country, address, zipCode, firstname, lastname, artistRequests);
     }
 
     @Override
