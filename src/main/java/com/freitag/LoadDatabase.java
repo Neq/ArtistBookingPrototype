@@ -29,6 +29,7 @@ public class LoadDatabase {
         return args -> {
             log.info("Initiating Database");
             ContractTemplate contractTemplateAustria = new ContractTemplate();
+            contractTemplateAustria.setName("Template Austria");
             contractTemplateAustria.setTemplate("Test123 {firstname} {lastname}");
             log.info("ContractTemplateAustria: "+contractTemplateAustria);
             contractTemplateRepository.save(contractTemplateAustria);
