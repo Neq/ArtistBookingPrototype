@@ -27,9 +27,13 @@ public class Artist {
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ArtistRequest> artistRequests;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "contractTemplate_id")
+    private ContractTemplate contractTemplate;
+
     public Artist() {}
 
-    public Artist(String name, String management, String email, String country, String address, String zipCode, String firstname, String lastname) {
+    public Artist(String name, String management, String email, String country, String address, String zipCode, String firstname, String lastname, ContractTemplate contractTemplate) {
         this.name = name;
         this.management = management;
         this.email = email;
@@ -38,6 +42,7 @@ public class Artist {
         this.zipCode = zipCode;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.contractTemplate = contractTemplate;
     }
 
     public Long getId() {
@@ -118,6 +123,14 @@ public class Artist {
 
     public void setArtistRequests(Set<ArtistRequest> artistRequests) {
         this.artistRequests = artistRequests;
+    }
+
+    public ContractTemplate getContractTemplate() {
+        return contractTemplate;
+    }
+
+    public void setContractTemplate(ContractTemplate contractTemplate) {
+        this.contractTemplate = contractTemplate;
     }
 
     /*public ArtistRequest getArtistRequest() {

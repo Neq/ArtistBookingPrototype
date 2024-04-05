@@ -1,6 +1,7 @@
 package com.freitag.dtos;
 
 import com.freitag.entities.Artist;
+import com.freitag.entities.ContractTemplate;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class ArtistDTO {
     private String firstname;
 
     private String lastname;
+    private Long contractTemplateId;
 
     public ArtistDTO() {}
 
@@ -104,6 +106,14 @@ public class ArtistDTO {
         this.lastname = lastname;
     }
 
+    public void setContractTemplateId(Long contractTemplateId) {
+        this.contractTemplateId = contractTemplateId;
+    }
+
+    public Long getContractTemplateId() {
+        return this.contractTemplateId;
+    }
+
     public void toDTOFromObject(Artist artist) {
         setAddress(artist.getAddress());
         setCountry(artist.getCountry());
@@ -115,5 +125,8 @@ public class ArtistDTO {
         setZipCode(artist.getZipCode());
         setManagement(artist.getManagement());
         setName(artist.getName());
+        setContractTemplateId(artist.getContractTemplate().getId());
     }
+
+
 }
