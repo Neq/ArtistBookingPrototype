@@ -26,9 +26,9 @@ public class LoadDatabase {
 
         return args -> {
             log.info("Initiating Database");
-            Artist djHansWerner = new Artist("DJ Hans Werner", "Super Booking Agency GmbH", "djhanswerner@superbookingagency.com");
+            Artist djHansWerner = new Artist("DJ Hans Werner", "Super Booking Agency GmbH", "djhanswerner@superbookingagency.com", "Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag");
             log.info("\\tArtist 1: " + artistRepository.save(djHansWerner));
-            Artist superDj = new Artist("SuperDJ", "Super Booking Agency GmbH", "superdj@superbookingagency.com");
+            Artist superDj = new Artist("SuperDJ", "Super Booking Agency GmbH", "superdj@superbookingagency.com","Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag");
             log.info("\\tArtist 2: " + artistRepository.save(superDj));
             ArtistRequest djHansWernerRequest = new ArtistRequest(artistRepository.findById(djHansWerner.getId()).get(), new Date(), new Date(), "Test details blabbla");
             log.info("\\tArtistRequest 1: " + artistRequestRepository.save(djHansWernerRequest));

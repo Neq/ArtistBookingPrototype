@@ -72,4 +72,15 @@ public class Offer {
         COMPLETED,
         CANCELLED
     }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "id=" + id +
+                ", artistRequest=" + artistRequest +
+                ", details='" + details + '\'' +
+                ", offerPrice=" + offerPrice +
+                ", offerStatus=" + offerStatus +
+                '}';
+    }
 }

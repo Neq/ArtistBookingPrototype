@@ -26,7 +26,7 @@ public class ArtistController {
     }
 
     @GetMapping("/artists")
-    CollectionModel<EntityModel<Artist>> all() {
+    /*CollectionModel<EntityModel<Artist>> all() {
 
         List<EntityModel<Artist>> artists = artistRepository.findAll().stream() //
                 .map(assembler::toModel) //
@@ -34,6 +34,9 @@ public class ArtistController {
 
         return CollectionModel.of(artists, //
                 linkTo(methodOn(ArtistController.class).all()).withSelfRel());
+    }*/
+    public ResponseEntity<List<Artist>> all() {
+        return ResponseEntity.ok(artistRepository.findAll().stream().toList());
     }
 
     /*@GetMapping("/artists")

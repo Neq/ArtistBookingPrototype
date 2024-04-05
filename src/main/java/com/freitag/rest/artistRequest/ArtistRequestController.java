@@ -2,13 +2,11 @@ package com.freitag.rest.artistRequest;
 
 import com.freitag.entities.ArtistRequest;
 import com.freitag.repositories.ArtistRequestRepository;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -26,7 +24,7 @@ public class ArtistRequestController {
     }
 
     @GetMapping("/artistRequests")
-    CollectionModel<EntityModel<ArtistRequest>> all() {
+    /*CollectionModel<EntityModel<ArtistRequest>> all() {
 
         List<EntityModel<ArtistRequest>> artistRequests = artistRequestRepository.findAll().stream() //
                 .map(assembler::toModel) //
@@ -34,6 +32,9 @@ public class ArtistRequestController {
 
         return CollectionModel.of(artistRequests, //
                 linkTo(methodOn(ArtistRequestController.class).all()).withSelfRel());
+    }*/
+    ResponseEntity<List<ArtistRequest>> all() {
+        return ResponseEntity.ok(artistRequestRepository.findAll().stream().toList());
     }
 
     @GetMapping("/artistRequests/{id}")

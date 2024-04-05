@@ -13,15 +13,30 @@ public class Artist {
     private String management;
     private String email;
 
+    private String country;
+
+    private String address;
+
+    private String zipCode;
+
+    private String firstname;
+
+    private String lastname;
+
     @OneToOne(mappedBy = "artist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ArtistRequest artistRequest;
 
     public Artist() {}
 
-    public Artist(String name, String management, String email) {
+    public Artist(String name, String management, String email, String country, String address, String zipCode, String firstname, String lastname) {
         this.name = name;
         this.management = management;
         this.email = email;
+        this.country = country;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
     public Long getId() {
@@ -56,21 +71,69 @@ public class Artist {
         this.email = email;
     }
 
-    //public ArtistRequest getArtistRequest() { return artistRequest; }
+    public String getCountry() {
+        return country;
+    }
 
-    //public void setArtistRequest(ArtistRequest artistRequest) { this.artistRequest = artistRequest; }
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public Long getArtistRequestId() {
+        return artistRequest != null ? artistRequest.getId() : Long.getLong("0");
+    }
+
+    /*public ArtistRequest getArtistRequest() {
+        return artistRequest;
+    }
+
+    public void setArtistRequest(ArtistRequest artistRequest) {
+        this.artistRequest = artistRequest;
+    }*/
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Artist artist = (Artist) o;
-        return Objects.equals(id, artist.id) && Objects.equals(name, artist.name) && Objects.equals(management, artist.management) && Objects.equals(email, artist.email);
+        return Objects.equals(id, artist.id) && Objects.equals(name, artist.name) && Objects.equals(management, artist.management) && Objects.equals(email, artist.email) && Objects.equals(country, artist.country) && Objects.equals(address, artist.address) && Objects.equals(zipCode, artist.zipCode) && Objects.equals(firstname, artist.firstname) && Objects.equals(lastname, artist.lastname) && Objects.equals(artistRequest, artist.artistRequest);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, management, email);
+        return Objects.hash(id, name, management, email, country, address, zipCode, firstname, lastname, artistRequest);
     }
 
     @Override
@@ -80,6 +143,12 @@ public class Artist {
                 ", name='" + name + '\'' +
                 ", management='" + management + '\'' +
                 ", email='" + email + '\'' +
+                ", country='" + country + '\'' +
+                ", address='" + address + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                //", artistRequestId=" + (artistRequest != null ? artistRequest.getId().toString() : "null") +
                 '}';
     }
 }

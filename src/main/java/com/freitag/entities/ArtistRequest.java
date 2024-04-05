@@ -11,11 +11,11 @@ public class ArtistRequest {
     private @Id
     @GeneratedValue Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "artist_id")
     private Artist artist;
 
-    @OneToOne(mappedBy = "artistRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "artistRequest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Offer offer;
 
     private Date eventStart;
@@ -39,13 +39,13 @@ public class ArtistRequest {
         this.id = id;
     }
 
-    public Artist getArtist() {
+    /* Artist getArtist() {
         return artist;
     }
 
     public void setArtist(Artist artist) {
         this.artist = artist;
-    }
+    }*/
 
     public Date getEventStart() {
         return eventStart;
@@ -71,11 +71,23 @@ public class ArtistRequest {
         this.details = details;
     }
 
-    public Offer getOffer() {
+    /*public Offer getOffer() {
         return offer;
     }
 
     public void setOffer(Offer offer) {
         this.offer = offer;
+    }*/
+
+    @Override
+    public String toString() {
+        return "ArtistRequest{" +
+                "id=" + id +
+                //", artist=" + artist +
+                //", offer=" + offer +
+                ", eventStart=" + eventStart +
+                ", eventEnd=" + eventEnd +
+                ", details='" + details + '\'' +
+                '}';
     }
 }
