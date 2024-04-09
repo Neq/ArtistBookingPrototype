@@ -24,8 +24,6 @@ public class EventController {
 
     @GetMapping("/events")
     public ResponseEntity<List<EventDTO>> all() {
-        artistRequestRepository.findAll().stream().toList();
-
         List<EventDTO> eventDtos = new ArrayList<>();
         for(ArtistRequest artistRequest : artistRequestRepository.findAll().stream().toList()) {
             EventDTO eventDto = new EventDTO();
