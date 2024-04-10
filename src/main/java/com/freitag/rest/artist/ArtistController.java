@@ -1,44 +1,29 @@
 package com.freitag.rest.artist;
 
 import com.freitag.dtos.ArtistDTO;
-import com.freitag.dtos.ArtistRequestDTO;
 import com.freitag.entities.Artist;
-import com.freitag.entities.ArtistRequest;
+import com.freitag.entities.ContractTemplate;
 import com.freitag.repositories.ArtistRepository;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
+import com.freitag.repositories.ContractTemplateRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @CrossOrigin
 public class ArtistController {
 
-    private final ArtistRepository artistRepository;
-    private final ArtistModelAssembler assembler;
+    @Autowired
+    ArtistRepository artistRepository;
 
-    ArtistController(ArtistRepository artistRepository, ArtistModelAssembler assembler) {
-        this.artistRepository = artistRepository;
-        this.assembler = assembler;
-    }
+    @Autowired
+    ContractTemplateRepository contractTemplateRepository;
 
     @GetMapping("/artists")
-    /*CollectionModel<EntityModel<Artist>> all() {
-
-        List<EntityModel<Artist>> artists = artistRepository.findAll().stream() //
-                .map(assembler::toModel) //
-                .collect(Collectors.toList());
-
-        return CollectionModel.of(artists, //
-                linkTo(methodOn(ArtistController.class).all()).withSelfRel());
-    }*/
     public ResponseEntity<List<ArtistDTO>> all() {
         List<ArtistDTO> artistDtos = new ArrayList<>();
         for(Artist artist : artistRepository.findAll().stream().toList()) {
@@ -49,48 +34,40 @@ public class ArtistController {
         return ResponseEntity.ok(artistDtos);
     }
 
-    /*@GetMapping("/artists")
-    public List<Artist> getAllArtists() {
-        return artistRepository.findAll();
-    }*/
-
     @GetMapping("/artists/{id}")
-    /*EntityModel<Artist> one(@PathVariable Long id) {
-
-        Artist artist = artistRepository.findById(id) //
-                .orElseThrow(() -> new NullPointerException("one liefert nix zurück"+id));
-
-        return assembler.toModel(artist);
-    }*/
     ResponseEntity<Artist> one(@PathVariable Long id) {
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("one liefert nix zurück"+id));
         return ResponseEntity.ok(artist);
     }
 
     @PostMapping("/artists")
-    /*ResponseEntity<EntityModel<Artist>> newArtist(@RequestBody Artist artist) {
+    ResponseEntity<ArtistDTO> newArtist(@RequestBody ArtistDTO artistDto) {
+        ContractTemplate contractTemplate = contractTemplateRepository.findById(artistDto.getContractTemplateId()).orElseThrow(() -> new NullPointerException(("artist not found")));
 
-        Artist newArtist = artistRepository.save(artist);
+        if (contractTemplate == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return ResponseEntity //
-                .created(linkTo(methodOn(ArtistController.class).one(newArtist.getId())).toUri()) //
-                .body(assembler.toModel(newArtist));
-    }*/
-    ResponseEntity<Artist> newArtist(@RequestBody Artist artist) {
-        Artist newArtist = artistRepository.save(artist);
+        Artist artist = new Artist();
+        artist.setContractTemplate(contractTemplate);
+        artist.setId(artistDto.getId());
+        artist.setAddress(artistDto.getAddress());
+        artist.setEmail(artistDto.getEmail());
+        artist.setFirstname(artistDto.getFirstname());
+        artist.setLastname(artistDto.getLastname());
+        artist.setManagement(artistDto.getManagement());
+        artist.setCountry(artistDto.getCountry());
+        artist.setZipCode(artistDto.getZipCode());
+        artist.setName(artistDto.getName());
 
-        return ResponseEntity.ok(newArtist);
+        Artist createdArtist = artistRepository.save(artist);
+        ArtistDTO createdArtistDTO = new ArtistDTO();
+        createdArtistDTO.toDTOFromObject(createdArtist);
+
+        return new ResponseEntity<>(createdArtistDTO, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/artists/{id}")
-    /*ResponseEntity<EntityModel<Artist>> deleteArtist(@PathVariable Long id) {
-
-        Artist artist = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("artist not found"));
-        artistRepository.delete(artist);
-
-        return ResponseEntity.created(linkTo(methodOn(ArtistController.class).one(artist.getId())).toUri()).body(assembler.toModel(artist));
-    }*/
-
     ResponseEntity<Artist> deleteArtist(@PathVariable Long id) {
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("artist not found"));
         artistRepository.delete(artist);
