@@ -1,7 +1,9 @@
-package com.freitag.rest.artist;
+package com.freitag.rest;
 
 import com.freitag.dtos.ArtistDTO;
+import com.freitag.dtos.ArtistRequestDTO;
 import com.freitag.entities.Artist;
+import com.freitag.entities.ArtistRequest;
 import com.freitag.entities.ContractTemplate;
 import com.freitag.repositories.ArtistRepository;
 import com.freitag.repositories.ContractTemplateRepository;
@@ -35,9 +37,11 @@ public class ArtistController {
     }
 
     @GetMapping("/artists/{id}")
-    ResponseEntity<Artist> one(@PathVariable Long id) {
+    ResponseEntity<ArtistDTO> one(@PathVariable Long id) {
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("one liefert nix zurück"+id));
-        return ResponseEntity.ok(artist);
+        ArtistDTO artistDto = new ArtistDTO();
+        artistDto.toDTOFromObject(artist);
+        return ResponseEntity.ok(artistDto);
     }
 
     @PostMapping("/artists")
@@ -68,10 +72,36 @@ public class ArtistController {
     }
 
     @DeleteMapping("/artists/{id}")
-    ResponseEntity<Artist> deleteArtist(@PathVariable Long id) {
+    ResponseEntity<ArtistDTO> deleteArtist(@PathVariable Long id) {
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("artist not found"));
         artistRepository.delete(artist);
 
-        return ResponseEntity.ok(artist);
+        ArtistDTO artistDto = new ArtistDTO();
+        artistDto.toDTOFromObject(artist);
+
+        return ResponseEntity.ok(artistDto);
+    }
+
+    @PutMapping("/artists/{id}")
+    ResponseEntity<ArtistDTO> updateArtist(@PathVariable Long id, @RequestBody ArtistDTO artistDto) {
+        Artist artistToEdit = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("artistrequest not found"));
+
+        artistToEdit.setManagement(artistDto.getManagement());
+        artistToEdit.setName(artistDto.getName());
+        artistToEdit.setFirstname(artistDto.getFirstname());
+        artistToEdit.setLastname(artistDto.getLastname());
+        artistToEdit.setCountry(artistDto.getCountry());
+        artistToEdit.setEmail(artistDto.getEmail());
+        artistToEdit.setAddress(artistDto.getAddress());
+        artistToEdit.setZipCode(artistDto.getZipCode());
+
+        ContractTemplate contractTemplate = contractTemplateRepository.findById(artistDto.getContractTemplateId()).orElseThrow(() -> new NullPointerException("ContractTemplate not found"));
+        artistToEdit.setContractTemplate(contractTemplate);
+
+        //Artist artist = artistRe
+        //artistRequestToEdit.setArtist();
+        artistRepository.save(artistToEdit);
+
+        return ResponseEntity.ok(artistDto);
     }
 }

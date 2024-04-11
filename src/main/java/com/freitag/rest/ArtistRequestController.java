@@ -1,11 +1,10 @@
-package com.freitag.rest.artistRequest;
+package com.freitag.rest;
 
 import com.freitag.dtos.ArtistRequestDTO;
 import com.freitag.entities.Artist;
 import com.freitag.entities.ArtistRequest;
 import com.freitag.repositories.ArtistRepository;
 import com.freitag.repositories.ArtistRequestRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -22,27 +21,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @CrossOrigin
 public class ArtistRequestController {
 
-    private final ArtistRequestRepository artistRequestRepository;
-    private final ArtistRequestModelAssembler assembler;
+    @Autowired
+    ArtistRequestRepository artistRequestRepository;
 
     @Autowired
-    private ArtistRepository artistRepository;
-
-    ArtistRequestController(ArtistRequestRepository artistRequestRepository, ArtistRequestModelAssembler assembler) {
-        this.artistRequestRepository = artistRequestRepository;
-        this.assembler = assembler;
-    }
+    ArtistRepository artistRepository;
 
     @GetMapping("/artistRequests")
-    /*CollectionModel<EntityModel<ArtistRequest>> all() {
-
-        List<EntityModel<ArtistRequest>> artistRequests = artistRequestRepository.findAll().stream() //
-                .map(assembler::toModel) //
-                .collect(Collectors.toList());
-
-        return CollectionModel.of(artistRequests, //
-                linkTo(methodOn(ArtistRequestController.class).all()).withSelfRel());
-    }*/
     ResponseEntity<List<ArtistRequestDTO>> all() {
         List<ArtistRequestDTO> artistRequestDtos = new ArrayList<>();
         for(ArtistRequest artistRequest : artistRequestRepository.findAll().stream().toList()) {
@@ -54,28 +39,17 @@ public class ArtistRequestController {
     }
 
     @GetMapping("/artistRequests/{id}")
-    /*EntityModel<ArtistRequest> one(@PathVariable Long id) {
-
-        ArtistRequest artistRequest = artistRequestRepository.findById(id) //
-                .orElseThrow(() -> new NullPointerException("one liefert nix zurück"+id));
-
-        return assembler.toModel(artistRequest);
-    }*/
-    ResponseEntity<ArtistRequest> one(@PathVariable Long id) {
+    ResponseEntity<ArtistRequestDTO> one(@PathVariable Long id) {
         ArtistRequest artistRequest = artistRequestRepository.findById(id).orElseThrow(() -> new NullPointerException("one liefert nix zurück"+id));
-        return ResponseEntity.ok(artistRequest);
+
+        ArtistRequestDTO artistRequestDto = new ArtistRequestDTO();
+        artistRequestDto.toDTOFromObject(artistRequest);
+
+        return ResponseEntity.ok(artistRequestDto);
     }
 
     @PostMapping("/artistRequests")
-    /*ResponseEntity<EntityModel<ArtistRequest>> newArtist(@RequestBody ArtistRequest artistRequest) {
-
-        ArtistRequest newArtistRequest = artistRequestRepository.save(artistRequest);
-
-        return ResponseEntity //
-                .created(linkTo(methodOn(ArtistRequestController.class).one(newArtistRequest.getId())).toUri()) //
-                .body(assembler.toModel(newArtistRequest));
-    }*/
-    ResponseEntity<ArtistRequest> newArtist(@RequestBody ArtistRequestDTO artistRequestDto) {
+    ResponseEntity<ArtistRequestDTO> newArtist(@RequestBody ArtistRequestDTO artistRequestDto) {
         Artist artist = artistRepository.findById(artistRequestDto.getArtistId()).orElseThrow(() -> new NullPointerException(("artist not found")));
         if (artist == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -88,29 +62,25 @@ public class ArtistRequestController {
         artistRequest.setDetails(artistRequestDto.getDetails());
 
         ArtistRequest createdRequest = artistRequestRepository.save(artistRequest);
-        return new ResponseEntity<>(createdRequest, HttpStatus.CREATED);
 
-
-        /*Artist newArtistToAdd = artistRepository.findById(artistRequestDto.getArtistId()).orElseThrow(() -> new NullPointerException(("artist not found")));
-        artistRequestDto.setArtist(newArtistToAdd);
-        ArtistRequest savedArtistRequest = artistRequestRepository.save(artistRequestDto);
-
-        return ResponseEntity.ok(savedArtistRequest);*/
+        return new ResponseEntity<>(artistRequestDto, HttpStatus.CREATED);
     }
 
 
 
     @DeleteMapping("/artistRequests/{id}")
-    ResponseEntity<EntityModel<ArtistRequest>> deleteArtist(@PathVariable Long id) {
+    ResponseEntity<ArtistRequestDTO> deleteArtist(@PathVariable Long id) {
 
         ArtistRequest artistRequest = artistRequestRepository.findById(id).orElseThrow(() -> new NullPointerException("artistrequest not found"));
         artistRequestRepository.delete(artistRequest);
 
-        return ResponseEntity.created(linkTo(methodOn(ArtistRequestController.class).one(artistRequest.getId())).toUri()).body(assembler.toModel(artistRequest));
+        ArtistRequestDTO artistRequestDTO = new ArtistRequestDTO();
+        artistRequestDTO.toDTOFromObject(artistRequest);
+        return ResponseEntity.ok(artistRequestDTO);
     }
 
     @PutMapping("/artistRequests/{id}")
-    ResponseEntity<ArtistRequest> updateArtist(@PathVariable Long id, @RequestBody ArtistRequestDTO artistRequestDto) {
+    ResponseEntity<ArtistRequestDTO> updateArtist(@PathVariable Long id, @RequestBody ArtistRequestDTO artistRequestDto) {
         ArtistRequest artistRequestToEdit = artistRequestRepository.findById(id).orElseThrow(() -> new NullPointerException("artistrequest not found"));
 
         artistRequestToEdit.setEventEnd(artistRequestDto.getEventEnd());
@@ -124,6 +94,6 @@ public class ArtistRequestController {
         //artistRequestToEdit.setArtist();
         artistRequestRepository.save(artistRequestToEdit);
 
-        return ResponseEntity.ok(artistRequestToEdit);
+        return ResponseEntity.ok(artistRequestDto);
     }
 }
