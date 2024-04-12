@@ -14,6 +14,10 @@ public class EventDTO {
 
     private String title;
 
+    private String status;
+
+    private String color;
+
     public EventDTO(Long id, Date start, Date end) {
         this.id = id;
         this.start = start;
@@ -54,10 +58,28 @@ public class EventDTO {
         this.title = title;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public void toDTOFromObject(ArtistRequest artistRequest) {
         setStart(artistRequest.getEventStart());
         setEnd(artistRequest.getEventEnd());
         setTitle(artistRequest.getArtist().getName());
         setId(artistRequest.getId());
+        setStatus(artistRequest.getOfferStatus().getStatus());
+        setColor(artistRequest.getOfferStatus().getColor());
     }
 }
