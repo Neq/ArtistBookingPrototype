@@ -3,9 +3,12 @@ package com.freitag.rest;
 import com.freitag.dtos.ArtistRequestDTO;
 import com.freitag.entities.Artist;
 import com.freitag.entities.ArtistRequest;
+import com.freitag.entities.OfferStatus;
 import com.freitag.repositories.ArtistRepository;
 import com.freitag.repositories.ArtistRequestRepository;
+import com.freitag.repositories.OfferStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,9 @@ public class ArtistRequestController {
 
     @Autowired
     ArtistRepository artistRepository;
+
+    @Autowired
+    private OfferStatusRepository offerStatusRepository;
 
     @GetMapping("/artistRequests")
     ResponseEntity<List<ArtistRequestDTO>> all() {
@@ -55,8 +61,14 @@ public class ArtistRequestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        OfferStatus offerStatus = offerStatusRepository.findById(artistRequestDto.getOfferStatusId()).orElseThrow(() -> new NullPointerException("offerStauts not found"));
+        if (offerStatus == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         ArtistRequest artistRequest = new ArtistRequest();
         artistRequest.setArtist(artist);
+        artistRequest.setOfferStatus(offerStatus);
         artistRequest.setEventStart(artistRequestDto.getEventStart());
         artistRequest.setEventEnd(artistRequestDto.getEventEnd());
         artistRequest.setDetails(artistRequestDto.getDetails());
@@ -86,6 +98,9 @@ public class ArtistRequestController {
         artistRequestToEdit.setEventEnd(artistRequestDto.getEventEnd());
         artistRequestToEdit.setEventStart(artistRequestDto.getEventStart());
         artistRequestToEdit.setDetails((artistRequestDto.getDetails()));
+
+        OfferStatus offerStatus = offerStatusRepository.findById(artistRequestDto.getOfferStatusId()).orElseThrow(() -> new NullPointerException("offerStauts not found"));
+        artistRequestToEdit.setOfferStatus(offerStatus);
 
         Artist newArtistToSet = artistRepository.findById(artistRequestDto.getArtistId()).orElseThrow(() -> new NullPointerException(("artist not found")));
         artistRequestToEdit.setArtist(newArtistToSet);

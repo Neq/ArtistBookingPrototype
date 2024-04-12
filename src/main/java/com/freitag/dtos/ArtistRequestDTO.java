@@ -7,6 +7,8 @@ import java.util.Date;
 public class ArtistRequestDTO {
     private Long id;
     private Long artistId;
+
+    private Long offerStatusId;
     private Date eventStart;
     private Date eventEnd;
     private String details;
@@ -53,11 +55,20 @@ public class ArtistRequestDTO {
         this.details = details;
     }
 
+    public Long getOfferStatusId() {
+        return offerStatusId;
+    }
+
+    public void setOfferStatusId(Long offerStatusId) {
+        this.offerStatusId = offerStatusId;
+    }
+
     public void toDTOFromObject(ArtistRequest artistRequest) {
         setId(artistRequest.getId());
         setEventEnd(artistRequest.getEventEnd());
         setEventStart(artistRequest.getEventStart());
         setDetails(artistRequest.getDetails());
         setArtistId(artistRequest.getArtist().getId());
+        setOfferStatusId(artistRequest.getOfferStatus().getId());
     }
 }
