@@ -8,8 +8,6 @@ import com.freitag.repositories.ArtistRepository;
 import com.freitag.repositories.ArtistRequestRepository;
 import com.freitag.repositories.OfferStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @CrossOrigin
@@ -55,7 +52,7 @@ public class ArtistRequestController {
     }
 
     @PostMapping("/artistRequests")
-    ResponseEntity<ArtistRequestDTO> newArtist(@RequestBody ArtistRequestDTO artistRequestDto) {
+    ResponseEntity<ArtistRequestDTO> newArtistRequest(@RequestBody ArtistRequestDTO artistRequestDto) {
         Artist artist = artistRepository.findById(artistRequestDto.getArtistId()).orElseThrow(() -> new NullPointerException(("artist not found")));
         if (artist == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -71,7 +68,9 @@ public class ArtistRequestController {
         artistRequest.setOfferStatus(offerStatus);
         artistRequest.setEventStart(artistRequestDto.getEventStart());
         artistRequest.setEventEnd(artistRequestDto.getEventEnd());
-        artistRequest.setDetails(artistRequestDto.getDetails());
+        artistRequest.setNotes(artistRequestDto.getNotes());
+        artistRequest.setLocationName(artistRequestDto.getLocationName());
+        artistRequest.setLocationWebsite(artistRequestDto.getLocationWebsite());
 
         ArtistRequest createdRequest = artistRequestRepository.save(artistRequest);
 
@@ -97,7 +96,9 @@ public class ArtistRequestController {
 
         artistRequestToEdit.setEventEnd(artistRequestDto.getEventEnd());
         artistRequestToEdit.setEventStart(artistRequestDto.getEventStart());
-        artistRequestToEdit.setDetails((artistRequestDto.getDetails()));
+        artistRequestToEdit.setNotes((artistRequestDto.getNotes()));
+        artistRequestToEdit.setLocationName(artistRequestDto.getLocationName());
+        artistRequestToEdit.setLocationWebsite(artistRequestDto.getLocationWebsite());
 
         OfferStatus offerStatus = offerStatusRepository.findById(artistRequestDto.getOfferStatusId()).orElseThrow(() -> new NullPointerException("offerStauts not found"));
         artistRequestToEdit.setOfferStatus(offerStatus);

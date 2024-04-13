@@ -11,7 +11,11 @@ public class ArtistRequestDTO {
     private Long offerStatusId;
     private Date eventStart;
     private Date eventEnd;
-    private String details;
+    private String notes;
+
+    private String locationName;
+
+    private String locationWebsite;
 
     public Long getArtistId() {
         return artistId;
@@ -47,12 +51,28 @@ public class ArtistRequestDTO {
         this.eventEnd = eventEnd;
     }
 
-    public String getDetails() {
-        return details;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getLocationWebsite() {
+        return locationWebsite;
+    }
+
+    public void setLocationWebsite(String locationWebsite) {
+        this.locationWebsite = locationWebsite;
     }
 
     public Long getOfferStatusId() {
@@ -67,8 +87,10 @@ public class ArtistRequestDTO {
         setId(artistRequest.getId());
         setEventEnd(artistRequest.getEventEnd());
         setEventStart(artistRequest.getEventStart());
-        setDetails(artistRequest.getDetails());
+        setNotes(artistRequest.getNotes());
         setArtistId(artistRequest.getArtist().getId());
         setOfferStatusId(artistRequest.getOfferStatus().getId());
+        setLocationName(artistRequest.getLocationName());
+        setLocationWebsite(artistRequest.getLocationWebsite());
     }
 }

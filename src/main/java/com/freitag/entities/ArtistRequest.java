@@ -24,15 +24,19 @@ public class ArtistRequest {
 
     private Date eventStart;
     private Date eventEnd;
-    private String details;
+    private String notes;
+
+    private String locationName;
+
+    private String locationWebsite;
 
     public ArtistRequest() {}
 
-    public ArtistRequest(Artist artist, Date eventStart, Date eventEnd, String details) {
+    public ArtistRequest(Artist artist, Date eventStart, Date eventEnd, String notes) {
         this.artist = artist;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
-        this.details = details;
+        this.notes = notes;
     }
 
     public Long getId() {
@@ -42,14 +46,6 @@ public class ArtistRequest {
     public void setId(Long id) {
         this.id = id;
     }
-
-    /* Artist getArtist() {
-        return artist;
-    }
-
-    public void setArtist(Artist artist) {
-        this.artist = artist;
-    }*/
 
     public Date getEventStart() {
         return eventStart;
@@ -67,21 +63,37 @@ public class ArtistRequest {
         this.eventEnd = eventEnd;
     }
 
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    /*public Offer getOffer() {
+    public Offer getOffer() {
         return offer;
     }
 
     public void setOffer(Offer offer) {
         this.offer = offer;
-    }*/
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getLocationWebsite() {
+        return locationWebsite;
+    }
+
+    public void setLocationWebsite(String locationWebsite) {
+        this.locationWebsite = locationWebsite;
+    }
 
     public Artist getArtist() {
         return this.artist;
@@ -107,7 +119,7 @@ public class ArtistRequest {
                 //", offer=" + offer +
                 ", eventStart=" + eventStart +
                 ", eventEnd=" + eventEnd +
-                ", details='" + details + '\'' +
+                ", details='" + notes + '\'' +
                 '}';
     }
 }
