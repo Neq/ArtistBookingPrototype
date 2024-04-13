@@ -24,6 +24,8 @@ public class Artist {
 
     private String lastname;
 
+    private String phone;
+
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ArtistRequest> artistRequests;
 
@@ -33,7 +35,7 @@ public class Artist {
 
     public Artist() {}
 
-    public Artist(String name, String management, String email, String country, String address, String zipCode, String firstname, String lastname, ContractTemplate contractTemplate) {
+    public Artist(String name, String management, String email, String country, String address, String zipCode, String firstname, String lastname, String phone, ContractTemplate contractTemplate) {
         this.name = name;
         this.management = management;
         this.email = email;
@@ -42,6 +44,7 @@ public class Artist {
         this.zipCode = zipCode;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.phone = phone;
         this.contractTemplate = contractTemplate;
     }
 
@@ -123,6 +126,14 @@ public class Artist {
 
     public void setArtistRequests(Set<ArtistRequest> artistRequests) {
         this.artistRequests = artistRequests;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public ContractTemplate getContractTemplate() {
