@@ -12,6 +12,10 @@ public class Artist {
     private @Id @GeneratedValue Long id;
     private String name;
     private String management;
+
+    private String managementEmail;
+
+    private String managementPhone;
     private String email;
 
     private String country;
@@ -35,9 +39,11 @@ public class Artist {
 
     public Artist() {}
 
-    public Artist(String name, String management, String email, String country, String address, String zipCode, String firstname, String lastname, String phone, ContractTemplate contractTemplate) {
+    public Artist(String name, String management, String managementEmail, String managementPhone, String email, String country, String address, String zipCode, String firstname, String lastname, String phone, ContractTemplate contractTemplate) {
         this.name = name;
         this.management = management;
+        this.managementEmail = managementEmail;
+        this.managementPhone = managementPhone;
         this.email = email;
         this.country = country;
         this.address = address;
@@ -70,6 +76,22 @@ public class Artist {
 
     public void setManagement(String management) {
         this.management = management;
+    }
+
+    public String getManagementEmail() {
+        return managementEmail;
+    }
+
+    public void setManagementEmail(String managementEmail) {
+        this.managementEmail = managementEmail;
+    }
+
+    public String getManagementPhone() {
+        return managementPhone;
+    }
+
+    public void setManagementPhone(String managementPhone) {
+        this.managementPhone = managementPhone;
     }
 
     public String getEmail() {

@@ -63,6 +63,9 @@ public class ArtistController {
         artist.setCountry(artistDto.getCountry());
         artist.setZipCode(artistDto.getZipCode());
         artist.setName(artistDto.getName());
+        artist.setPhone(artistDto.getPhone());
+        artist.setManagementEmail(artistDto.getManagementEmail());
+        artist.setManagementPhone(artistDto.getManagementPhone());
 
         Artist createdArtist = artistRepository.save(artist);
         ArtistDTO createdArtistDTO = new ArtistDTO();
@@ -87,6 +90,9 @@ public class ArtistController {
         Artist artistToEdit = artistRepository.findById(id).orElseThrow(() -> new NullPointerException("artistrequest not found"));
 
         artistToEdit.setManagement(artistDto.getManagement());
+        artistToEdit.setPhone(artistDto.getPhone());
+        artistToEdit.setManagementEmail(artistDto.getManagementEmail());
+        artistToEdit.setManagementPhone(artistDto.getManagementPhone());
         artistToEdit.setName(artistDto.getName());
         artistToEdit.setFirstname(artistDto.getFirstname());
         artistToEdit.setLastname(artistDto.getLastname());

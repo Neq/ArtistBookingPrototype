@@ -11,6 +11,10 @@ public class ArtistDTO {
 
     private String name;
     private String management;
+
+    private String managementEmail;
+
+    private String managementPhone;
     private String email;
 
     private String country;
@@ -22,7 +26,11 @@ public class ArtistDTO {
     private String firstname;
 
     private String lastname;
+
+    private String phone;
+
     private Long contractTemplateId;
+
 
     public ArtistDTO() {}
 
@@ -56,6 +64,22 @@ public class ArtistDTO {
 
     public void setManagement(String management) {
         this.management = management;
+    }
+
+    public String getManagementEmail() {
+        return managementEmail;
+    }
+
+    public void setManagementEmail(String managementEmail) {
+        this.managementEmail = managementEmail;
+    }
+
+    public String getManagementPhone() {
+        return managementPhone;
+    }
+
+    public void setManagementPhone(String managementPhone) {
+        this.managementPhone = managementPhone;
     }
 
     public String getEmail() {
@@ -106,6 +130,14 @@ public class ArtistDTO {
         this.lastname = lastname;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public void setContractTemplateId(Long contractTemplateId) {
         this.contractTemplateId = contractTemplateId;
     }
@@ -125,6 +157,9 @@ public class ArtistDTO {
         setZipCode(artist.getZipCode());
         setManagement(artist.getManagement());
         setName(artist.getName());
+        setPhone(artist.getPhone());
+        setManagementEmail(artist.getManagementEmail());
+        setManagementPhone(artist.getManagementPhone());
         setContractTemplateId(artist.getContractTemplate().getId());
     }
 

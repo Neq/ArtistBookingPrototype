@@ -42,9 +42,9 @@ public class LoadDatabase {
             offerStatusRepository.save(offerStatusCancel);
             log.info("OfferStatus Cancel: "+offerStatusCancel);
 
-            Artist djHansWerner = new Artist("DJ Hans Werner", "Super Booking Agency GmbH", "djhanswerner@superbookingagency.com", "Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria);
+            Artist djHansWerner = new Artist("DJ Hans Werner", "Super Booking Agency GmbH", "management@email.com", "0123124345345", "djhanswerner@superbookingagency.com", "Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria);
             log.info("\\tArtist 1: " + artistRepository.save(djHansWerner));
-            Artist superDj = new Artist("SuperDJ", "Super Booking Agency GmbH", "superdj@superbookingagency.com","Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria);
+            Artist superDj = new Artist("SuperDJ", "Super Booking Agency GmbH", "management@email.com", "0123124345345","superdj@superbookingagency.com","Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria);
             log.info("\\tArtist 2: " + artistRepository.save(superDj));
             ArtistRequest djHansWernerRequest = new ArtistRequest(artistRepository.findById(djHansWerner.getId()).get(), new Date(), new Date(), "Test details blabbla");
             djHansWernerRequest.setOfferStatus(offerStatusRepository.findById(Long.valueOf(2)).orElseThrow(() -> new NullPointerException("offerStatus ist null")));
