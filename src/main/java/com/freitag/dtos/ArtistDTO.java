@@ -31,6 +31,8 @@ public class ArtistDTO {
 
     private Long contractTemplateId;
 
+    private Long invoiceTemplateId;
+
 
     public ArtistDTO() {}
 
@@ -144,6 +146,14 @@ public class ArtistDTO {
 
     public Long getContractTemplateId() {
         return this.contractTemplateId;
+    }
+
+    public Long getInvoiceTemplateId() {
+        return invoiceTemplateId;
+    }
+
+    public void setInvoiceTemplateId(Long invoiceTemplateId) {
+        this.invoiceTemplateId = invoiceTemplateId;
     }
 
     public void toDTOFromObject(Artist artist) {

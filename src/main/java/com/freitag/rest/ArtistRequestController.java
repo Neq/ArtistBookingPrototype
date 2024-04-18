@@ -7,6 +7,7 @@ import com.freitag.entities.OfferStatus;
 import com.freitag.repositories.ArtistRepository;
 import com.freitag.repositories.ArtistRequestRepository;
 import com.freitag.repositories.OfferStatusRepository;
+import com.freitag.services.DocumentGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,9 @@ public class ArtistRequestController {
 
     @Autowired
     private OfferStatusRepository offerStatusRepository;
+
+    @Autowired
+    DocumentGeneratorService documentGeneratorService;
 
     @GetMapping("/artistRequests")
     ResponseEntity<List<ArtistRequestDTO>> all() {
@@ -102,6 +106,10 @@ public class ArtistRequestController {
 
         OfferStatus offerStatus = offerStatusRepository.findById(artistRequestDto.getOfferStatusId()).orElseThrow(() -> new NullPointerException("offerStauts not found"));
         artistRequestToEdit.setOfferStatus(offerStatus);
+
+        if(offerStatus.getStatus().equals("CONFIRMED")) {
+            documentGeneratorService.generateInvoice("Invoice_"+artistRequestDto.getArtistId()+"_"+artistRequestDto.getLocationName(), String.valueOf(artistRequestDto.getArtistId()));
+        }
 
         Artist newArtistToSet = artistRepository.findById(artistRequestDto.getArtistId()).orElseThrow(() -> new NullPointerException(("artist not found")));
         artistRequestToEdit.setArtist(newArtistToSet);

@@ -2,12 +2,9 @@ package com.freitag.entities;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-
 @Entity
-@Table(name = "contractTemplate")
-public class ContractTemplate {
-
+@Table(name = "invoiceTemplate")
+public class InvoiceTemplate {
     @Id
     @GeneratedValue
     Long id;
@@ -18,7 +15,7 @@ public class ContractTemplate {
     @Column(columnDefinition = "LONGTEXT")
     private String template;
 
-    public void ContractTemplate() {}
+    public void InvoiceTemplate() {}
 
     public Long getId() {
         return id;

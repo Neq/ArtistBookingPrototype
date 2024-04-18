@@ -20,31 +20,50 @@ public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(ArtistRequestRepository artistRequestRepository, ArtistRepository artistRepository, OfferRepository offerRepository, ContractTemplateRepository contractTemplateRepository, OfferStatusRepository offerStatusRepository) {
+    CommandLineRunner initDatabase(ArtistRequestRepository artistRequestRepository, ArtistRepository artistRepository, OfferRepository offerRepository, ContractTemplateRepository contractTemplateRepository, InvoiceTemplateRepository invoiceTemplateRepository, OfferStatusRepository offerStatusRepository) {
 
         return args -> {
             log.info("Initiating Database");
+
+            // Contract Template
             ContractTemplate contractTemplateAustria = new ContractTemplate();
             contractTemplateAustria.setName("Template Austria");
             contractTemplateAustria.setTemplate("Test123 {firstname} {lastname}");
             log.info("ContractTemplateAustria: "+contractTemplateAustria);
             contractTemplateRepository.save(contractTemplateAustria);
 
+
+            // InvoiceTemplate
+            InvoiceTemplate invoiceTemplateAustria = new InvoiceTemplate();
+            invoiceTemplateAustria.setName("Template Austria");
+            invoiceTemplateAustria.setTemplate("Test123 {firstname} {lastname}");
+            log.info("InvoiceTemplateAustria: "+invoiceTemplateAustria);
+            invoiceTemplateRepository.save(invoiceTemplateAustria);
+
+            // OfferStatus
             OfferStatus offerStatus = new OfferStatus();
             offerStatus.setStatus("PENDING");
-            offerStatus.setColor("red");
+            offerStatus.setColor("lightblue");
             offerStatusRepository.save(offerStatus);
             log.info("OfferStatus Pending: "+offerStatus);
 
             OfferStatus offerStatusCancel = new OfferStatus();
             offerStatusCancel.setStatus("CANCEL");
-            offerStatusCancel.setColor("blue");
+            offerStatusCancel.setColor("red");
             offerStatusRepository.save(offerStatusCancel);
             log.info("OfferStatus Cancel: "+offerStatusCancel);
 
-            Artist djHansWerner = new Artist("DJ Hans Werner", "Super Booking Agency GmbH", "management@email.com", "0123124345345", "djhanswerner@superbookingagency.com", "Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria);
+            OfferStatus offerStatusConfirmed = new OfferStatus();
+            offerStatusConfirmed.setStatus("CONFIRMED");
+            offerStatusConfirmed.setColor("green");
+            offerStatusRepository.save(offerStatusConfirmed);
+            log.info("OfferStatus Confirmed: "+offerStatusConfirmed);
+
+            // Artists & ArtistRequests
+
+            Artist djHansWerner = new Artist("DJ Hans Werner", "Super Booking Agency GmbH", "management@email.com", "0123124345345", "djhanswerner@superbookingagency.com", "Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria, invoiceTemplateAustria);
             log.info("\\tArtist 1: " + artistRepository.save(djHansWerner));
-            Artist superDj = new Artist("SuperDJ", "Super Booking Agency GmbH", "management@email.com", "0123124345345","superdj@superbookingagency.com","Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria);
+            Artist superDj = new Artist("SuperDJ", "Super Booking Agency GmbH", "management@email.com", "0123124345345","superdj@superbookingagency.com","Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria, invoiceTemplateAustria);
             log.info("\\tArtist 2: " + artistRepository.save(superDj));
             ArtistRequest djHansWernerRequest = new ArtistRequest(artistRepository.findById(djHansWerner.getId()).get(), new Date(), new Date(), "Test details blabbla");
             djHansWernerRequest.setOfferStatus(offerStatusRepository.findById(Long.valueOf(1)).orElseThrow(() -> new NullPointerException("offerStatus ist null")));
@@ -53,11 +72,6 @@ public class LoadDatabase {
 
             Offer djHansWernerOffer = new Offer(artistRequestRepository.findById(djHansWernerRequest.getId()).get(),"test", new BigDecimal(99.99), Offer.OfferStatus.PENDING);
             log.info("DJHansWernerOffer: "+offerRepository.save(djHansWernerOffer));
-
-
-
-            //contractTemplateRepository.save(contractTemplateAustria);
-            //log.info("CotnractTempltaeAustria size: "+contractTemplateAustria.getArtists().size());
 
         };
 

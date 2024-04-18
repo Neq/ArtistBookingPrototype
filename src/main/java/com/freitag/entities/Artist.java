@@ -37,9 +37,13 @@ public class Artist {
     @JoinColumn(name = "contractTemplate_id")
     private ContractTemplate contractTemplate;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "invoiceTemplate_id")
+    private InvoiceTemplate invoiceTemplate;
+
     public Artist() {}
 
-    public Artist(String name, String management, String managementEmail, String managementPhone, String email, String country, String address, String zipCode, String firstname, String lastname, String phone, ContractTemplate contractTemplate) {
+    public Artist(String name, String management, String managementEmail, String managementPhone, String email, String country, String address, String zipCode, String firstname, String lastname, String phone, ContractTemplate contractTemplate, InvoiceTemplate invoiceTemplate) {
         this.name = name;
         this.management = management;
         this.managementEmail = managementEmail;
@@ -52,6 +56,7 @@ public class Artist {
         this.lastname = lastname;
         this.phone = phone;
         this.contractTemplate = contractTemplate;
+        this.invoiceTemplate = invoiceTemplate;
     }
 
     public Long getId() {
@@ -164,6 +169,14 @@ public class Artist {
 
     public void setContractTemplate(ContractTemplate contractTemplate) {
         this.contractTemplate = contractTemplate;
+    }
+
+    public InvoiceTemplate getInvoiceTemplate() {
+        return invoiceTemplate;
+    }
+
+    public void setInvoiceTemplate(InvoiceTemplate invoiceTemplate) {
+        this.invoiceTemplate = invoiceTemplate;
     }
 
     /*public ArtistRequest getArtistRequest() {

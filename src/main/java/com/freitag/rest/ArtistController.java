@@ -5,9 +5,12 @@ import com.freitag.dtos.ArtistRequestDTO;
 import com.freitag.entities.Artist;
 import com.freitag.entities.ArtistRequest;
 import com.freitag.entities.ContractTemplate;
+import com.freitag.entities.InvoiceTemplate;
 import com.freitag.repositories.ArtistRepository;
 import com.freitag.repositories.ContractTemplateRepository;
+import com.freitag.repositories.InvoiceTemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ public class ArtistController {
 
     @Autowired
     ContractTemplateRepository contractTemplateRepository;
+
+    @Autowired
+    InvoiceTemplateRepository invoiceTemplateRepository;
 
     @GetMapping("/artists")
     public ResponseEntity<List<ArtistDTO>> all() {
@@ -49,6 +55,12 @@ public class ArtistController {
         ContractTemplate contractTemplate = contractTemplateRepository.findById(artistDto.getContractTemplateId()).orElseThrow(() -> new NullPointerException(("artist not found")));
 
         if (contractTemplate == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        InvoiceTemplate invoiceTemplate = invoiceTemplateRepository.findById(artistDto.getInvoiceTemplateId()).orElseThrow(() -> new NullPointerException(("artist not found")));
+
+        if (invoiceTemplate == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
