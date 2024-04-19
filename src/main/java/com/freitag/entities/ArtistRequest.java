@@ -15,9 +15,6 @@ public class ArtistRequest {
     @JoinColumn(name = "artist_id")
     private Artist artist;
 
-    @OneToOne(mappedBy = "artistRequest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Offer offer;
-
     @ManyToOne
     @JoinColumn(name = "offerStatus_id")
     private OfferStatus offerStatus;
@@ -61,14 +58,6 @@ public class ArtistRequest {
 
     public void setEventEnd(Date eventEnd) {
         this.eventEnd = eventEnd;
-    }
-
-    public Offer getOffer() {
-        return offer;
-    }
-
-    public void setOffer(Offer offer) {
-        this.offer = offer;
     }
 
     public String getNotes() {

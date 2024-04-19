@@ -20,7 +20,7 @@ public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(ArtistRequestRepository artistRequestRepository, ArtistRepository artistRepository, OfferRepository offerRepository, ContractTemplateRepository contractTemplateRepository, InvoiceTemplateRepository invoiceTemplateRepository, OfferStatusRepository offerStatusRepository) {
+    CommandLineRunner initDatabase(ArtistRequestRepository artistRequestRepository, ArtistRepository artistRepository, ContractTemplateRepository contractTemplateRepository, InvoiceTemplateRepository invoiceTemplateRepository, OfferStatusRepository offerStatusRepository) {
 
         return args -> {
             log.info("Initiating Database");
@@ -69,9 +69,6 @@ public class LoadDatabase {
             djHansWernerRequest.setOfferStatus(offerStatusRepository.findById(Long.valueOf(1)).orElseThrow(() -> new NullPointerException("offerStatus ist null")));
             log.info("\\tArtistRequest 1: " + artistRequestRepository.save(djHansWernerRequest));
             log.info("DJHansWernerRequest: "+artistRequestRepository.findById(djHansWernerRequest.getId()).get());
-
-            Offer djHansWernerOffer = new Offer(artistRequestRepository.findById(djHansWernerRequest.getId()).get(),"test", new BigDecimal(99.99), Offer.OfferStatus.PENDING);
-            log.info("DJHansWernerOffer: "+offerRepository.save(djHansWernerOffer));
 
         };
 

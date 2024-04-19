@@ -1,6 +1,5 @@
 package com.freitag.dtos;
 
-import com.freitag.entities.Offer;
 import com.freitag.entities.OfferStatus;
 
 public class OfferStatusDTO {
