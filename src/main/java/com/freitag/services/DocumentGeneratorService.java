@@ -1,11 +1,14 @@
 package com.freitag.services;
 
+import com.freitag.entities.Artist;
+import com.freitag.entities.ArtistRequest;
+import com.freitag.entities.ContractTemplate;
+import com.freitag.repositories.ArtistRepository;
+import com.freitag.repositories.ArtistRequestRepository;
 import com.freitag.repositories.ContractTemplateRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.xhtmlrenderer.layout.SharedContext;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -14,6 +17,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -21,6 +28,12 @@ public class DocumentGeneratorService {
 
     @Autowired
     ContractTemplateRepository contractTemplateRepository;
+
+    @Autowired
+    ArtistRequestRepository artistRequestRepository;
+
+    @Autowired
+    ArtistRepository artistRepository;
 
     final static String invoicePath = "C:\\FH\\6. Semester\\Bachelorarbeit\\Rechnungen\\";
     final static String contractPath = "C:\\FH\\6. Semester\\Bachelorarbeit\\Vertraege\\";
@@ -42,12 +55,13 @@ public class DocumentGeneratorService {
 
     public void generateInvoice(String filename, String artistId) {
         try {
+            Artist artist = artistRepository.findById(Long.valueOf(artistId)).orElseThrow(() -> new NullPointerException("Couldn't find Artist with id "+artistId));
 
-            File inputHTML = new File("C:\\FH\\6. Semester\\Bachelorarbeit\\ArtistBookingPrototype\\ArtistBookingPrototype\\src\\main\\resources\\test.html");
-
-
-            Document document = Jsoup.parse(inputHTML, "UTF-8");
+            //File inputHTML = new File("C:\\FH\\6. Semester\\Bachelorarbeit\\ArtistBookingPrototype\\ArtistBookingPrototype\\src\\main\\resources\\test.html");
+            Document document = Jsoup.parse(artist.getInvoiceTemplate().getTemplate(), "UTF-8");
             document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+
+            String replacedDocumentHtml = replaceTemplateStrings(document.html(), artist);
 
             File outputPdf = new File(invoicePath + artistId + File.separator + filename + ".pdf");
             outputPdf.getParentFile().mkdirs();
@@ -57,7 +71,7 @@ public class DocumentGeneratorService {
                 SharedContext sharedContext = renderer.getSharedContext();
                 sharedContext.setPrint(true);
                 sharedContext.setInteractive(false);
-                renderer.setDocumentFromString(document.html().replace("{management}", "Saukopf"));
+                renderer.setDocumentFromString(replacedDocumentHtml);
                 renderer.layout();
                 renderer.createPDF(outputStream);
             }
@@ -66,15 +80,19 @@ public class DocumentGeneratorService {
         }
     }
 
-    public void generateContract(String filename, String artistId, String contractTemplateId) {
+    public void generateContract(String filename, String artistId) {
         try {
 
-            File inputHTML = new File("C:\\FH\\6. Semester\\Bachelorarbeit\\ArtistBookingPrototype\\ArtistBookingPrototype\\src\\main\\resources\\test.html");
+            Artist artist = artistRepository.findById(Long.valueOf(artistId)).orElseThrow(() -> new NullPointerException("Couldn't find Artist with id "+artistId));
 
-            inputHTML = Files.createFile(inputHTML.toPath()).toFile();
+            //File inputHTML = new File("C:\\FH\\6. Semester\\Bachelorarbeit\\ArtistBookingPrototype\\ArtistBookingPrototype\\src\\main\\resources\\test.html");
 
-            Document document = Jsoup.parse(inputHTML, "UTF-8");
+            //inputHTML = Files.createFile(inputHTML.toPath()).toFile();
+
+            Document document = Jsoup.parse(artist.getContractTemplate().getTemplate(), "UTF-8");
             document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+
+            String replacedDocumentHtml = replaceTemplateStrings(document.html(), artist);
 
             File outputPdf = new File(contractPath + artistId + File.separator + filename + ".pdf");
             outputPdf.getParentFile().mkdirs();
@@ -84,7 +102,7 @@ public class DocumentGeneratorService {
                 SharedContext sharedContext = renderer.getSharedContext();
                 sharedContext.setPrint(true);
                 sharedContext.setInteractive(false);
-                renderer.setDocumentFromString(document.html());
+                renderer.setDocumentFromString(replacedDocumentHtml);
                 renderer.layout();
                 renderer.createPDF(outputStream);
             }
@@ -93,9 +111,35 @@ public class DocumentGeneratorService {
         }
     }
 
+    private String replaceTemplateStrings(String templatePreTransformation, Artist artist) {
+
+        HashMap<String, String> templateStrings = new HashMap<>();
+        templateStrings.put("\\{name\\}", artist.getName());
+        templateStrings.put("\\{management\\}", artist.getManagement());
+        templateStrings.put("\\{invoiceAddress\\}", artist.getAddress());
+        templateStrings.put("\\{invoiceZip\\}", artist.getZipCode());
+        templateStrings.put("\\{invoiceCountry\\}", artist.getCountry());
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        templateStrings.put("\\{invoiceDate\\}", currentDate);
+        templateStrings.put("\\{invoiceNumber\\}", "122");
+        templateStrings.put("\\{taxNumber\\}", taxNumber);
+        templateStrings.put("\\{uidNumber\\}", uidNumber);
+        templateStrings.put("\\{wofName\\}", wofName);
+        templateStrings.put("\\{wofBank\\}", wofBank);
+        templateStrings.put("\\{wofIban\\}", wofIban);
+        templateStrings.put("\\{wofSwift\\}", wofSwift);
+        templateStrings.put("\\{wofAddress\\}", wofAddress);
+
+        for(Map.Entry<String, String> entry : templateStrings.entrySet()) {
+            templatePreTransformation = templatePreTransformation.replaceAll(entry.getKey(), entry.getValue());
+        }
+
+        return templatePreTransformation;
+    }
+
     public static void main(String[] args) {
         DocumentGeneratorService service = new DocumentGeneratorService();
-        service.generateInvoice("test", "1");
+        service.generateInvoice("replaceis", "1");
     }
 
 }
