@@ -122,6 +122,7 @@ public class DocumentGeneratorService {
         String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         templateStrings.put("\\{invoiceDate\\}", currentDate);
         templateStrings.put("\\{invoiceNumber\\}", "122");
+        templateStrings.put("\\{invoicePlace\\}", artist.getPlace());
         templateStrings.put("\\{taxNumber\\}", taxNumber);
         templateStrings.put("\\{uidNumber\\}", uidNumber);
         templateStrings.put("\\{wofName\\}", wofName);

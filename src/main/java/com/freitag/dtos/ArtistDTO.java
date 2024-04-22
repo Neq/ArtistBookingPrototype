@@ -23,6 +23,8 @@ public class ArtistDTO {
 
     private String zipCode;
 
+    private String place;
+
     private String firstname;
 
     private String lastname;
@@ -108,6 +110,14 @@ public class ArtistDTO {
         this.address = address;
     }
 
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
     public String getZipCode() {
         return zipCode;
     }
@@ -171,7 +181,8 @@ public class ArtistDTO {
         setManagementEmail(artist.getManagementEmail());
         setManagementPhone(artist.getManagementPhone());
         setContractTemplateId(artist.getContractTemplate().getId());
+        setInvoiceTemplateId(artist.getInvoiceTemplate().getId());
+        setPlace(artist.getPlace());
     }
-
 
 }

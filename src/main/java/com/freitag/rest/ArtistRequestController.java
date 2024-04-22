@@ -70,11 +70,18 @@ public class ArtistRequestController {
         ArtistRequest artistRequest = new ArtistRequest();
         artistRequest.setArtist(artist);
         artistRequest.setOfferStatus(offerStatus);
+        artistRequest.setEventName(artistRequestDto.getEventName());
         artistRequest.setEventStart(artistRequestDto.getEventStart());
         artistRequest.setEventEnd(artistRequestDto.getEventEnd());
         artistRequest.setNotes(artistRequestDto.getNotes());
         artistRequest.setLocationName(artistRequestDto.getLocationName());
         artistRequest.setLocationWebsite(artistRequestDto.getLocationWebsite());
+        artistRequest.setPrice(artistRequestDto.getPrice());
+        artistRequest.setInvoiceAddress(artistRequestDto.getInvoiceAddress());
+        artistRequest.setInvoiceCountry(artistRequestDto.getInvoiceCountry());
+        artistRequest.setInvoiceName(artistRequestDto.getInvoiceName());
+        artistRequest.setInvoiceZipCode(artistRequestDto.getInvoiceZipCode());
+        artistRequest.setInvoicePlace(artistRequestDto.getInvoicePlace());
 
         ArtistRequest createdRequest = artistRequestRepository.save(artistRequest);
 
@@ -98,11 +105,18 @@ public class ArtistRequestController {
     ResponseEntity<ArtistRequestDTO> updateArtist(@PathVariable Long id, @RequestBody ArtistRequestDTO artistRequestDto) {
         ArtistRequest artistRequestToEdit = artistRequestRepository.findById(id).orElseThrow(() -> new NullPointerException("artistrequest not found"));
 
+        artistRequestToEdit.setEventName(artistRequestDto.getEventName());
         artistRequestToEdit.setEventEnd(artistRequestDto.getEventEnd());
         artistRequestToEdit.setEventStart(artistRequestDto.getEventStart());
         artistRequestToEdit.setNotes((artistRequestDto.getNotes()));
         artistRequestToEdit.setLocationName(artistRequestDto.getLocationName());
         artistRequestToEdit.setLocationWebsite(artistRequestDto.getLocationWebsite());
+        artistRequestToEdit.setPrice(artistRequestDto.getPrice());
+        artistRequestToEdit.setInvoiceAddress(artistRequestDto.getInvoiceAddress());
+        artistRequestToEdit.setInvoiceCountry(artistRequestDto.getInvoiceCountry());
+        artistRequestToEdit.setInvoiceName(artistRequestDto.getInvoiceName());
+        artistRequestToEdit.setInvoiceZipCode(artistRequestDto.getInvoiceZipCode());
+        artistRequestToEdit.setInvoicePlace(artistRequestDto.getInvoicePlace());
 
         OfferStatus offerStatus = offerStatusRepository.findById(artistRequestDto.getOfferStatusId()).orElseThrow(() -> new NullPointerException("offerStauts not found"));
         artistRequestToEdit.setOfferStatus(offerStatus);

@@ -66,6 +66,7 @@ public class ArtistController {
 
         Artist artist = new Artist();
         artist.setContractTemplate(contractTemplate);
+        artist.setInvoiceTemplate(invoiceTemplate);
         artist.setId(artistDto.getId());
         artist.setAddress(artistDto.getAddress());
         artist.setEmail(artistDto.getEmail());
@@ -74,6 +75,7 @@ public class ArtistController {
         artist.setManagement(artistDto.getManagement());
         artist.setCountry(artistDto.getCountry());
         artist.setZipCode(artistDto.getZipCode());
+        artist.setPlace(artistDto.getPlace());
         artist.setName(artistDto.getName());
         artist.setPhone(artistDto.getPhone());
         artist.setManagementEmail(artistDto.getManagementEmail());
@@ -112,12 +114,14 @@ public class ArtistController {
         artistToEdit.setEmail(artistDto.getEmail());
         artistToEdit.setAddress(artistDto.getAddress());
         artistToEdit.setZipCode(artistDto.getZipCode());
+        artistToEdit.setPlace(artistDto.getPlace());
 
         ContractTemplate contractTemplate = contractTemplateRepository.findById(artistDto.getContractTemplateId()).orElseThrow(() -> new NullPointerException("ContractTemplate not found"));
         artistToEdit.setContractTemplate(contractTemplate);
 
-        //Artist artist = artistRe
-        //artistRequestToEdit.setArtist();
+        InvoiceTemplate invoiceTemplate = invoiceTemplateRepository.findById(artistDto.getInvoiceTemplateId()).orElseThrow(() -> new NullPointerException("InvoiceTemplate not found"));
+        artistToEdit.setInvoiceTemplate(invoiceTemplate);
+
         artistRepository.save(artistToEdit);
 
         return ResponseEntity.ok(artistDto);

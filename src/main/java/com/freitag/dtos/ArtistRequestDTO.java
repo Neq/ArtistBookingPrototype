@@ -9,6 +9,8 @@ public class ArtistRequestDTO {
     private Long artistId;
 
     private Long offerStatusId;
+
+    private String eventName;
     private Date eventStart;
     private Date eventEnd;
     private String notes;
@@ -16,6 +18,18 @@ public class ArtistRequestDTO {
     private String locationName;
 
     private String locationWebsite;
+
+    private String invoiceAddress;
+
+    private String invoiceCountry;
+
+    private String invoiceZipCode;
+
+    private String invoiceName;
+
+    private String invoicePlace;
+
+    private Double price;
 
     public Long getArtistId() {
         return artistId;
@@ -33,6 +47,14 @@ public class ArtistRequestDTO {
 
     public void setArtistId(Long artistId) {
         this.artistId = artistId;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
     public Date getEventStart() {
@@ -83,8 +105,57 @@ public class ArtistRequestDTO {
         this.offerStatusId = offerStatusId;
     }
 
+    public String getInvoiceAddress() {
+        return invoiceAddress;
+    }
+
+    public void setInvoiceAddress(String invoiceAddress) {
+        this.invoiceAddress = invoiceAddress;
+    }
+
+    public String getInvoiceCountry() {
+        return invoiceCountry;
+    }
+
+    public void setInvoiceCountry(String invoiceCountry) {
+        this.invoiceCountry = invoiceCountry;
+    }
+
+    public String getInvoiceZipCode() {
+        return invoiceZipCode;
+    }
+
+    public void setInvoiceZipCode(String invoiceZipCode) {
+        this.invoiceZipCode = invoiceZipCode;
+    }
+
+    public String getInvoiceName() {
+        return invoiceName;
+    }
+
+    public void setInvoiceName(String invoiceName) {
+        this.invoiceName = invoiceName;
+    }
+
+    public String getInvoicePlace() {
+        return invoicePlace;
+    }
+
+    public void setInvoicePlace(String invoicePlace) {
+        this.invoicePlace = invoicePlace;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public void toDTOFromObject(ArtistRequest artistRequest) {
         setId(artistRequest.getId());
+        setEventName(artistRequest.getEventName());
         setEventEnd(artistRequest.getEventEnd());
         setEventStart(artistRequest.getEventStart());
         setNotes(artistRequest.getNotes());
@@ -92,5 +163,11 @@ public class ArtistRequestDTO {
         setOfferStatusId(artistRequest.getOfferStatus().getId());
         setLocationName(artistRequest.getLocationName());
         setLocationWebsite(artistRequest.getLocationWebsite());
+        setPrice(artistRequest.getPrice());
+        setInvoiceAddress(artistRequest.getInvoiceAddress());
+        setInvoiceCountry(artistRequest.getInvoiceCountry());
+        setInvoiceZipCode(artistRequest.getInvoiceZipCode());
+        setInvoiceName(artistRequest.getInvoiceName());
+        setInvoicePlace(artistRequest.getInvoicePlace());
     }
 }

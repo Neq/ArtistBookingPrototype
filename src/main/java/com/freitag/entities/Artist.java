@@ -24,6 +24,8 @@ public class Artist {
 
     private String zipCode;
 
+    private String place;
+
     private String firstname;
 
     private String lastname;
@@ -43,7 +45,7 @@ public class Artist {
 
     public Artist() {}
 
-    public Artist(String name, String management, String managementEmail, String managementPhone, String email, String country, String address, String zipCode, String firstname, String lastname, String phone, ContractTemplate contractTemplate, InvoiceTemplate invoiceTemplate) {
+    public Artist(String name, String management, String managementEmail, String managementPhone, String email, String country, String address, String zipCode, String place, String firstname, String lastname, String phone, ContractTemplate contractTemplate, InvoiceTemplate invoiceTemplate) {
         this.name = name;
         this.management = management;
         this.managementEmail = managementEmail;
@@ -52,6 +54,7 @@ public class Artist {
         this.country = country;
         this.address = address;
         this.zipCode = zipCode;
+        this.place = place;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
@@ -145,6 +148,14 @@ public class Artist {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public Set<ArtistRequest> getArtistRequests() {

@@ -61,9 +61,9 @@ public class LoadDatabase {
 
             // Artists & ArtistRequests
 
-            Artist djHansWerner = new Artist("DJ Hans Werner", "Super Booking Agency GmbH", "management@email.com", "0123124345345", "djhanswerner@superbookingagency.com", "Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria, invoiceTemplateAustria);
+            Artist djHansWerner = new Artist("DJ Hans Werner", "Super Booking Agency GmbH", "management@email.com", "0123124345345", "djhanswerner@superbookingagency.com", "Austria", "Grundsteingasse 67/13", "1160", "Wien", "Patrick", "Freitag", "06644517408", contractTemplateAustria, invoiceTemplateAustria);
             log.info("\\tArtist 1: " + artistRepository.save(djHansWerner));
-            Artist superDj = new Artist("SuperDJ", "Super Booking Agency GmbH", "management@email.com", "0123124345345","superdj@superbookingagency.com","Austria", "Grundsteingasse 67/13", "1160", "Patrick", "Freitag", "06644517408", contractTemplateAustria, invoiceTemplateAustria);
+            Artist superDj = new Artist("SuperDJ", "Super Booking Agency GmbH", "management@email.com", "0123124345345","superdj@superbookingagency.com","Austria", "Grundsteingasse 67/13", "1160", "Wien","Patrick", "Freitag", "06644517408", contractTemplateAustria, invoiceTemplateAustria);
             log.info("\\tArtist 2: " + artistRepository.save(superDj));
             ArtistRequest djHansWernerRequest = new ArtistRequest(artistRepository.findById(djHansWerner.getId()).get(), new Date(), new Date(), "Test details blabbla");
             djHansWernerRequest.setOfferStatus(offerStatusRepository.findById(Long.valueOf(1)).orElseThrow(() -> new NullPointerException("offerStatus ist null")));
