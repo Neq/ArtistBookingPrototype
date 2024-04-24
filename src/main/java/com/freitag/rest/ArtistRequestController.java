@@ -85,6 +85,10 @@ public class ArtistRequestController {
 
         ArtistRequest createdRequest = artistRequestRepository.save(artistRequest);
 
+        if(offerStatus.getStatus().equals("CONFIRMED")) {
+            documentGeneratorService.generateInvoice("Invoice_"+artistRequestDto.getArtistId()+"_"+artistRequestDto.getEventName()+"_"+artistRequestDto.getEventStart().getYear()+"-"+artistRequestDto.getEventStart().getMonth()+"-"+artistRequestDto.getEventStart().getDay()+".pdf", String.valueOf(artistRequestDto.getArtistId()), artistRequest);
+        }
+
         return new ResponseEntity<>(artistRequestDto, HttpStatus.CREATED);
     }
 
@@ -122,7 +126,7 @@ public class ArtistRequestController {
         artistRequestToEdit.setOfferStatus(offerStatus);
 
         if(offerStatus.getStatus().equals("CONFIRMED")) {
-            documentGeneratorService.generateInvoice("Invoice_"+artistRequestDto.getArtistId()+"_"+artistRequestDto.getLocationName(), String.valueOf(artistRequestDto.getArtistId()));
+            documentGeneratorService.generateInvoice("Invoice_"+artistRequestDto.getArtistId()+"_"+artistRequestDto.getEventName()+"_"+artistRequestDto.getEventStart().getYear()+"-"+artistRequestDto.getEventStart().getMonth()+"-"+artistRequestDto.getEventStart().getDay()+".pdf", String.valueOf(artistRequestDto.getArtistId()), artistRequestToEdit);
         }
 
         Artist newArtistToSet = artistRepository.findById(artistRequestDto.getArtistId()).orElseThrow(() -> new NullPointerException(("artist not found")));

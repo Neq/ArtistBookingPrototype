@@ -53,7 +53,7 @@ public class DocumentGeneratorService {
             "Austria";
 
 
-    public void generateInvoice(String filename, String artistId) {
+    public void generateInvoice(String filename, String artistId, ArtistRequest artistRequest) {
         try {
             Artist artist = artistRepository.findById(Long.valueOf(artistId)).orElseThrow(() -> new NullPointerException("Couldn't find Artist with id "+artistId));
 
@@ -61,7 +61,7 @@ public class DocumentGeneratorService {
             Document document = Jsoup.parse(artist.getInvoiceTemplate().getTemplate(), "UTF-8");
             document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
 
-            String replacedDocumentHtml = replaceTemplateStrings(document.html(), artist);
+            String replacedDocumentHtml = replaceTemplateStrings(document.html(), artist, artistRequest);
 
             File outputPdf = new File(invoicePath + artistId + File.separator + filename + ".pdf");
             outputPdf.getParentFile().mkdirs();
@@ -80,7 +80,7 @@ public class DocumentGeneratorService {
         }
     }
 
-    public void generateContract(String filename, String artistId) {
+    public void generateContract(String filename, String artistId, ArtistRequest artistRequest) {
         try {
 
             Artist artist = artistRepository.findById(Long.valueOf(artistId)).orElseThrow(() -> new NullPointerException("Couldn't find Artist with id "+artistId));
@@ -92,7 +92,7 @@ public class DocumentGeneratorService {
             Document document = Jsoup.parse(artist.getContractTemplate().getTemplate(), "UTF-8");
             document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
 
-            String replacedDocumentHtml = replaceTemplateStrings(document.html(), artist);
+            String replacedDocumentHtml = replaceTemplateStrings(document.html(), artist, artistRequest);
 
             File outputPdf = new File(contractPath + artistId + File.separator + filename + ".pdf");
             outputPdf.getParentFile().mkdirs();
@@ -111,18 +111,17 @@ public class DocumentGeneratorService {
         }
     }
 
-    private String replaceTemplateStrings(String templatePreTransformation, Artist artist) {
-
+    private String replaceTemplateStrings(String templatePreTransformation, Artist artist, ArtistRequest artistRequest) {
         HashMap<String, String> templateStrings = new HashMap<>();
-        templateStrings.put("\\{name\\}", artist.getName());
+        templateStrings.put("\\{name\\}", artistRequest.getInvoiceName());
         templateStrings.put("\\{management\\}", artist.getManagement());
-        templateStrings.put("\\{invoiceAddress\\}", artist.getAddress());
-        templateStrings.put("\\{invoiceZip\\}", artist.getZipCode());
-        templateStrings.put("\\{invoiceCountry\\}", artist.getCountry());
+        templateStrings.put("\\{invoiceAddress\\}", artistRequest.getInvoiceAddress());
+        templateStrings.put("\\{invoiceZip\\}", artistRequest.getInvoiceZipCode());
+        templateStrings.put("\\{invoiceCountry\\}", artistRequest.getInvoiceCountry());
         String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         templateStrings.put("\\{invoiceDate\\}", currentDate);
         templateStrings.put("\\{invoiceNumber\\}", "122");
-        templateStrings.put("\\{invoicePlace\\}", artist.getPlace());
+        templateStrings.put("\\{invoicePlace\\}", artistRequest.getInvoicePlace());
         templateStrings.put("\\{taxNumber\\}", taxNumber);
         templateStrings.put("\\{uidNumber\\}", uidNumber);
         templateStrings.put("\\{wofName\\}", wofName);
@@ -136,11 +135,6 @@ public class DocumentGeneratorService {
         }
 
         return templatePreTransformation;
-    }
-
-    public static void main(String[] args) {
-        DocumentGeneratorService service = new DocumentGeneratorService();
-        service.generateInvoice("replaceis", "1");
     }
 
 }
