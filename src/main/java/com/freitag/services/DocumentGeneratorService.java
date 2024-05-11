@@ -39,17 +39,17 @@ public class DocumentGeneratorService {
     final static String contractPath = "C:\\FH\\6. Semester\\Bachelorarbeit\\Vertraege\\";
 
     // Contract properties
-    final static String taxNumber = "195/0632";
+    final static String taxNumber = "1234";
     final static String invoiceNumber = String.valueOf(Math.random());
-    final static String uidNumber = "ATU 628 23 118";
-    final static String wofName = "Mathias Freitag";
-    final static String wofBank = "Volksbank Süd-Ost Steiermark";
+    final static String uidNumber = "ATU 123 123 123";
+    final static String wofName = "Tester Test";
+    final static String wofBank = "Testbank";
 
-    final static String wofIban = "AT094477031519820000";
-    final static String wofSwift = "VBOEATWWGRA";
-    final static String wofAddress = "Attn: Mathias Freitag" +
-            "Angerstraße 15/3" +
-            "8230 Hartberg" +
+    final static String wofIban = "AT123412341234123";
+    final static String wofSwift = "ABDCDEFGH";
+    final static String wofAddress = "Attn: Tester Test" +
+            "Teststraße 123" +
+            "1010 Wien" +
             "Austria";
 
 
@@ -57,7 +57,6 @@ public class DocumentGeneratorService {
         try {
             Artist artist = artistRepository.findById(Long.valueOf(artistId)).orElseThrow(() -> new NullPointerException("Couldn't find Artist with id "+artistId));
 
-            //File inputHTML = new File("C:\\FH\\6. Semester\\Bachelorarbeit\\ArtistBookingPrototype\\ArtistBookingPrototype\\src\\main\\resources\\test.html");
             Document document = Jsoup.parse(artist.getInvoiceTemplate().getTemplate(), "UTF-8");
             document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
 
@@ -84,10 +83,6 @@ public class DocumentGeneratorService {
         try {
 
             Artist artist = artistRepository.findById(Long.valueOf(artistId)).orElseThrow(() -> new NullPointerException("Couldn't find Artist with id "+artistId));
-
-            //File inputHTML = new File("C:\\FH\\6. Semester\\Bachelorarbeit\\ArtistBookingPrototype\\ArtistBookingPrototype\\src\\main\\resources\\test.html");
-
-            //inputHTML = Files.createFile(inputHTML.toPath()).toFile();
 
             Document document = Jsoup.parse(artist.getContractTemplate().getTemplate(), "UTF-8");
             document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
